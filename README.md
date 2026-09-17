@@ -1,202 +1,150 @@
-# Computing 2 Submission
+# Campus Tycoon
 
-This folder contains my Computing 2 web application coursework. The project is a JavaScript browser game called **Campus Tycoon**. It is based on a traditional Monopoly-style board game, but simplified so the rules are clear, testable, and suitable for the assignment.
+**A campus-themed browser board game for 2–4 players, built with vanilla JavaScript.**
 
-## Submission Structure
+[**Play the live game →**](https://campus-tycoon-cici.yz12524.chatgpt.site)
 
-```text
-.
-├── README.md
-├── jsdoc.json
-├── package.json
-├── package-lock.json
-└── web-app/
-    ├── index.html
-    ├── default.css
-    ├── main.js
-    ├── game.js
-    ├── ramda.js
-    ├── assets/
-    │   ├── characters/
-    │   ├── data/
-    │   │   ├── characters.json
-    │   │   ├── skills.json
-    │   │   └── map1.json
-    │   ├── tiles/
-    │   └── ui/
-    └── tests/
-        └── game.test.js
-```
+Roll the dice, buy campus properties, collect rent and respond to Chance + Fate cards. The last player who has not gone bankrupt wins.
 
-## What Each File Contains
+> Play locally with friends on the same device. Each browser runs its own game; online multiplayer and saved games are not implemented. Refreshing the page starts a new game.
 
-```text
-README.md
-```
+## About the project
 
-This document. It explains the submission structure, the game idea, the game module API, and the unit tests.
+Campus Tycoon was developed as a Computing 2 web application coursework project. This personal repository, `imperial-tycoon`, is a fork of the [original coursework submission](https://github.com/Computing-2-Submissions-2025-26/computing-2-submission-Cici-Szx). The in-game title remains **Campus Tycoon**.
 
-```text
-jsdoc.json
-```
+The implementation separates game rules from interface rendering so that movement, purchases, cards and turn transitions can be tested without opening a browser.
 
-Configuration file for generating JSDoc documentation from `web-app/game.js`.
+## What you can play
 
-```text
-package.json
-```
+- **2–4 selectable players**, each starting with £1,000.
+- A **25-space campus board** with properties and special locations.
+- Two-dice movement and a £100 reward for passing or landing back on Start during normal forward movement.
+- Property purchase decisions, rent payments and a £20 rent increase when an owner lands on their own property.
+- **40 Chance + Fate cards** with effects such as money changes, movement and extra rolls.
+- A **one-card hand limit**, with options to use, keep or replace a drawn card.
+- Stage-specific controls, player colours, ownership indicators and a game log.
+- Bankruptcy handling and winner detection.
 
-Defines the project name, module type, and useful commands such as `npm test`, `npm start`, and `npm run docs`.
+## How to play
 
-```text
-package-lock.json
-```
+1. Open the [live game](https://campus-tycoon-cici.yz12524.chatgpt.site) and choose two, three or four players.
+2. Select **Roll Dice**. Your token moves and the destination's rules are applied.
+3. If an affordable property is unowned, choose **Buy Property** or **Skip Buying**. Other destinations may charge rent, award money or require a special decision.
+4. Follow the end-of-turn card flow: **Draw Card**, then use or keep the card, or replace your existing hand. Replacing a held card immediately uses the old card.
+5. During the held-card window, other players can use their saved card on the active player. Select **End Turn** when ready to continue.
+6. Continue until only one player remains solvent. **New Game** opens the player-count selector to start again.
 
-Locks the installed npm dependency versions, mainly Mocha and JSDoc. This should be submitted with `package.json` so the dependency versions are reproducible.
+Card effects can alter this sequence. The visible controls follow the current game phase.
 
-```text
-web-app/index.html
-```
+## Run locally
 
-The main HTML page for the web app. This is the browser entry point. It loads `default.css` and `main.js`.
+### Requirements
 
-```text
-web-app/default.css
-```
+- Node.js and npm for dependencies, tests and documentation.
+- Python 3 for the local static server.
+- A modern browser with JavaScript enabled.
 
-The stylesheet for the web app. It controls the board layout, player cards, buttons, colours, spacing, popups, and responsive layout.
-
-```text
-web-app/main.js
-```
-
-The browser interface code. It renders the board and player information, handles button clicks, shows popups, and calls functions from `game.js`. It does not contain the main game rules.
-
-```text
-web-app/game.js
-```
-
-The pure game module. It stores the board setup, player setup, game state structure, movement rules, buying rules, rent, cards, special tiles, bankruptcy, turn order, and winner checking.
-
-```text
-web-app/ramda.js
-```
-
-A small local placeholder file from the template structure. The current game uses native JavaScript methods instead of relying on Ramda.
-
-```text
-web-app/tests/game.test.js
-```
-
-Mocha unit tests for the game module. These tests check game behaviour, not DOM rendering.
-
-```text
-web-app/assets/data/characters.json
-web-app/assets/data/skills.json
-web-app/assets/data/map1.json
-```
-
-Small data files included for the required assets structure. The current game logic is mainly kept in `game.js` to make it easier to test.
-
-```text
-web-app/assets/characters/
-web-app/assets/tiles/
-web-app/assets/ui/
-```
-
-Asset folders kept for the required template structure. They currently contain placeholder `.gitkeep` files and can be used for images or icons if the project is extended.
-
-## Game Overview
-
-Campus Tycoon is a simplified Monopoly-style game with a university campus theme.
-
-- There are 4 default players.
-- The board has 25 rectangular tiles.
-- Players roll two dice and move around the board in a loop.
-- Passing or landing on Start gives bonus money.
-- Most tiles are properties.
-- Players can buy unowned properties if they have enough money.
-- If a player lands on a property owned by another player, they pay rent.
-- Tax tiles remove money.
-- Bonus and chance tiles add or remove money.
-- If a player's money drops below zero, they become bankrupt.
-- Bankrupt players are skipped.
-- The last non-bankrupt player wins.
-
-## How To Run
-
-Install dependencies:
+### Setup
 
 ```bash
-npm install
-```
-
-Run tests:
-
-```bash
-npm test
-```
-
-Start the web app:
-
-```bash
+git clone https://github.com/Cici-Szx/imperial-tycoon.git
+cd imperial-tycoon
+npm ci
 npm start
 ```
 
-Then open:
+Open [http://localhost:8001](http://localhost:8001).
+
+`npm start` runs `python3 -m http.server 8001 --directory web-app`. Python serves the files; all game rules execute in the browser. No database, API keys or environment variables are required.
+
+### Useful commands
+
+| Command | Purpose |
+| --- | --- |
+| `npm start` | Serve the game locally on port 8001 |
+| `npm test` | Run the Mocha game-rule tests |
+| `npm run docs` | Generate JSDoc documentation in `docs/` |
+
+## Architecture
 
 ```text
-http://localhost:8001
+Player clicks a button
+        ↓
+main.js receives the event
+        ↓
+game.js checks the phase and applies the rules
+        ↓
+main.js stores the returned state
+        ↓
+render() refreshes the board, players, controls and feedback
 ```
 
-## Game Module API
+**State model.** Plain JavaScript objects describe players, the board, the deck, the active player, the current phase and the winner. Update helpers create replacement objects and arrays rather than directly modifying the old state.
 
-The game module is in `web-app/game.js`. It is independent from the DOM and can be imported by tests, used by `main.js`, or accessed from the browser console as:
+**Turn phases.** Phases such as `roll`, `buyDecision`, `drawChoice`, `cardDecision` and `heldCardWindow` determine which actions are available. Rule functions also check their relevant preconditions.
 
-```js
-window.CampusTycoonGame
-```
+**Interface.** HTML provides the containers, CSS defines the layout and visual style, and JavaScript renders the game using the DOM. No frontend framework is required.
 
-Main exported functions:
+**Testing.** The rule module can be imported directly into Node.js without a DOM. Dice generation accepts an injected random function, and tests can supply specific dice results to exercise scenarios.
 
-- `createInitialState(playerNames)` creates the starting game state for 2 to 4 players.
-- `getCurrentPlayer(state)` returns the active player.
-- `rollDice(randomFn)` rolls two dice. The random function can be injected for tests.
-- `movePlayer(state, playerId, steps)` moves a player around the loop and awards Start bonus money.
-- `resolveTile(state, playerId)` applies the effect of the tile the player landed on.
-- `buyProperty(state, playerId)` buys an affordable unowned property.
-- `skipBuyProperty(state, playerId)` skips a property purchase and ends the turn.
-- `endTurn(state)` advances to the next non-bankrupt player.
-- `takeTurn(state, diceRoll)` performs a full dice roll turn.
-- `checkWinner(state)` returns the winner when only one player remains.
-- `getTileAtPosition(state, position)` returns a tile using loop wrapping.
-- `getPlayerProperties(state, playerId)` returns all properties owned by one player.
-- `getPlayerNetWorth(state, playerId)` returns money plus property values.
+## Project structure
 
-## Unit Test Description
+| File or directory | Responsibility |
+| --- | --- |
+| `web-app/index.html` | Page structure, controls and player-count dialog |
+| `web-app/default.css` | Board layout, typography, colours, feedback and responsive styles |
+| `web-app/main.js` | Event handlers, current state and DOM rendering |
+| `web-app/game.js` | Board and card definitions, movement, purchases, rent, turns and victory rules |
+| `web-app/tests/game.test.js` | Automated tests of game behaviour |
+| `web-app/ramda.js` | Small template placeholder; not imported by the game |
+| `web-app/assets/data/` | Template JSON data files; not loaded by the current game |
+| `web-app/assets/characters/`, `tiles/`, `ui/` | Reserved asset folders with placeholder files |
+| `package.json`, `package-lock.json` | Commands and reproducible development dependencies |
+| `jsdoc.json` | Documentation generation configuration |
+| `.mocharc.json` | Mocha test discovery configuration |
 
-The tests are in `web-app/tests/game.test.js`. They focus on behaviour rather than internal implementation.
+## Key rule functions
 
-The tests check:
+The functions are exported from `web-app/game.js`. The browser also exposes the module as `window.CampusTycoonGame` for inspection.
 
-- Initial state creates the correct player count and 25-tile board.
-- `getTileAtPosition` wraps correctly around the loop.
-- Movement wraps around the board.
-- Passing or landing on Start awards money.
-- Landing on an affordable unowned property enters the buy decision phase.
-- Buying a property subtracts money and assigns ownership.
-- Landing on another player's property charges rent.
-- Players become bankrupt when money drops below zero.
-- `endTurn` skips bankrupt players.
-- `checkWinner` detects the last active player.
-- The game module can run without the DOM.
+| Function | Purpose |
+| --- | --- |
+| `createInitialState(playerNames)` | Initialise a game for 2–4 players |
+| `getCurrentPlayer(state)` | Return the active player |
+| `rollDice(randomFn)` | Generate two dice and their total |
+| `takeTurn(state, diceRoll)` | Process the roll phase, movement and destination |
+| `movePlayer(state, playerId, steps)` | Move around the board and handle the Start reward |
+| `resolveTile(state, playerId)` | Apply the destination's rules |
+| `buyProperty(...)` / `skipBuyProperty(...)` | Resolve a purchase decision and continue the relevant card flow |
+| `drawEndCard(state)` | Draw a card when the current phase permits it |
+| `useDrawnCard(...)` / `keepDrawnCard(...)` / `replaceHeldCard(...)` | Resolve the drawn-card decision |
+| `useHeldCard(...)` | Use a saved card during the permitted window |
+| `finishTurn(state)` / `endTurn(state)` | Finish the interaction window and advance turn order |
+| `checkWinner(state)` | Return the sole remaining non-bankrupt player, or `null` |
+| `getPlayerProperties(...)` / `getPlayerNetWorth(...)` | Read a player's assets |
 
-## Implementation Notes
+## Verification
 
-The main rule I followed is separation of concerns:
+**42 existing Mocha tests passed on 17 September 2026.**
 
-- `game.js` contains game state and game rules.
-- `main.js` contains DOM rendering and user interaction.
-- `game.test.js` tests the game module directly.
+The suite covers:
 
-The game state is represented as plain JavaScript objects, which makes it easier to inspect in tests and in the browser console.
+- Player setup, board size and card definitions.
+- Board wrapping and Start rewards.
+- Purchase eligibility, payment, ownership and rent.
+- Card effects, hand limits, deck recycling and repeat-draw prevention.
+- Held-card timing and targeting.
+- Bankruptcy, turn order and victory.
+- Running the rule functions independently of the DOM.
+
+Run `npm test` to check the current checkout. Passing these tests establishes the tested rule behaviours; it does not establish usability, game balance or complete browser coverage.
+
+## Current limits and next steps
+
+- **Same-device play:** no cross-device room or real-time synchronisation.
+- **Session-only state:** no accounts or persistent save/load.
+- **Small screens:** the board uses horizontal scrolling where necessary.
+- **Trading:** `transferProperty()` exists in the rules and tests, but there is no trading interface.
+- **Further validation:** first-time-player observation and balance play-testing remain future work.
+
+The public demo is hosted separately from GitHub. Repository changes require a separate deployment to update the live game.
